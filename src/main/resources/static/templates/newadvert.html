@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Добавление нового обьявления</title>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function addItem() {
+            const advert = new FormData();
+            advert.append('title', $('#advert_title').val());
+            advert.append('price', $('#sell_price').val());
+            advert.append('car.title', $('#car_title').val());
+            advert.append('car.vincode', $('#vincode').val());
+            advert.append('car.carBody', $('#car_body').val());
+            const file_upload = $('#file_upload')[0].files[0];
+            if (file_upload) advert.append('file_upload', file_upload);
+            console.log(advert);
+            $.ajax({
+                url: 'newadv',
+                method: 'post',
+                contentType: false,
+                processData: false,
+                data: advert
+            }).done(function () {
+                window.location.href = '/main';
+            });
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <h2 style="color: black">Добавить новое обьявление в систему</h2>
+    <form id="add_adverts" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="advert_title">Название обьявления:</label>
+            <input type="text" class="form-control" id="advert_title" name="advert_title"
+                   placeholder="Введите короткое имя вашей заявки">
+        </div>
+        <div class="form-group">
+            <label for="sell_price">Цена:</label>
+            <input type="text" class="form-control" id="sell_price" name="sell_price" placeholder="Введите Цену">
+        </div>
+        <div class="form-group">
+            <label for="car_title">Марка машины:</label>
+            <select name="car_title" id="car_title">
+                <option>Kia</option>
+                <option>Renault</option>
+                <option>Lada</option>
+                <option>Audi</option>
+                <option>Bmw</option>
+                <option>Mercedes-Benz</option>
+                <option>Ford</option>
+                <option>Chevrolet</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="vincode">Винкод машины:</label>
+            <input type="text" id="vincode" name="vincode">
+        </div>
+        <div class="form-group">
+            <label for="car_body">Тип кузова:</label>
+            <select name="car_body" id="car_body">
+                <option>Saloon</option>
+                <option>Estate</option>
+                <option>Coupe</option>
+                <option>Hatchback</option>
+                <option>Spider</option>
+                <option>Roadster</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="file_upload">Фото</label>
+            <input type="file" id="file_upload" name="file_upload">
+        </div>
+        <div>
+            <button type="button" id="add" onclick="addItem()">Добавить новое
+                обьявление
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

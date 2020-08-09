@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Страница обьявлений</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        table {
+            table-layout: fixed;
+        }
+    </style>
+    <script>
+        function showByCriteria() {
+            var url = 'data/' + $('#select_option').val();
+            $.ajax({
+                    url: url,
+                    method: 'get',
+                    datatype: 'json',
+                    complete: function (data) {
+                        var adverts = data.responseJSON;
+                        var result = "<tr>" +
+                            "<th>ID обьявления</th>" +
+                            "<th>Фото обьявления</th>" +
+                            "<th>Статус обьявления</th>" +
+                            "<th>Описание</th>" +
+                            "<th>Марка автомобиля</th>" +
+                            "<th>Тип кузова</th>" +
+                            "<th>Винкод машины</th>" +
+                            "<th>Цена</th>" +
+                            "<th>ID пользователя</th>" +
+                            "<th>Дата добавления </th>" +
+                            "</tr>";
+                        for (var i = 0; i !== adverts.length; i++) {
+                            result += "<tr>"
+                                + "<td>" + adverts[i].id + "</td>"
+                                + "<td>" + "<img width='85%'  src=" + "/photo/" + sendIdPhoto(data, i) + ">" + "</td>"
+                                + "<td>" + adverts[i].status + "</td>"
+                                + "<td>" + adverts[i].title + "</td>"
+                                + "<td>" + adverts[i].car.title + "</td>"
+                                + "<td>" + adverts[i].car.carBody + "</td>"
+                                + "<td>" + adverts[i].car.vincode + "</td>"
+                                + "<td>" + adverts[i].price + "</td>"
+                                + "<td>" + adverts[i].account.id + "</td>"
+                                + "<td>" + convertData(adverts, i) + "</td>"
+                                + "</tr>"
+                        }
+                        var table = document.getElementById("adverts_table");
+                        table.innerHTML = result;
+
+                    }
+
+
+                }
+            )
+        }
+    </script>
+    <script>
+        function showByCriteriaCars() {
+            var url = 'data/' + $('#action').val() + "/" + $('#car_title').val();
+            $.ajax({
+                    url: url,
+                    method: 'get',
+                    datatype: 'text',
+                    complete: function (data) {
+                        var adverts = data.responseJSON;
+                        var result = "<tr>" +
+                            "<th>ID обьявления</th>" +
+                            "<th>Фото обьявления</th>" +
+                            "<th>Статус обьявления</th>" +
+                            "<th>Описание</th>" +
+                            "<th>Марка автомобиля</th>" +
+                            "<th>Тип кузова</th>" +
+                            "<th>Винкод машины</th>" +
+                            "<th>Цена</th>" +
+                            "<th>ID пользователя</th>" +
+                            "<th>Дата добавления </th>" +
+                            "</tr>";
+                        for (var i = 0; i !== adverts.length; i++) {
+                            result += "<tr>"
+                                + "<td>" + adverts[i].id + "</td>" + "<td><img width='85%'  src=" + "/photo/" + sendIdPhoto(data, i) + ">" + "</td>"
+                                + "<td>" + adverts[i].status + "</td>"
+                                + "<td>" + adverts[i].title + "</td>"
+                                + "<td>" + adverts[i].car.title + "</td>"
+                                + "<td>" + adverts[i].car.carBody + "</td>"
+                                + "<td>" + adverts[i].car.vincode + "</td>"
+                                + "<td>" + adverts[i].price + "</td>"
+                                + "<td>" + adverts[i].account.id + "</td>"
+                                + "<td>" + convertData(adverts, i) + "</td>"
+                                + "</tr>"
+                        }
+                        var table = document.getElementById("adverts_table");
+                        table.innerHTML = result;
+
+                    }
+
+
+                }
+            )
+        }
+    </script>
+    <script>
+        $.ajax({
+            url: 'data',
+            method: 'get',
+            datatype: 'json',
+            complete: function (data) {
+                var adverts = data.responseJSON;
+                var result = "<tr>" +
+                    "<th>ID обьявления</th>" +
+                    "<th>Фото обьявления</th>" +
+                    "<th>Статус обьявления</th>" +
+                    "<th>Описание</th>" +
+                    "<th>Марка автомобиля</th>" +
+                    "<th>Тип кузова</th>" +
+                    "<th>Винкод машины</th>" +
+                    "<th>Цена</th>" +
+                    "<th>ID пользователя</th>" +
+                    "<th>Дата добавления</th>" +
+                    "</tr>";
+                for (var i = 0; i !== adverts.length; i++) {
+                    result += "<tr>"
+                        + "<td>" + adverts[i].id + "</td>"
+                        + "<td>" + "<img width='85%'  src=/photo/" + sendIdPhoto(data, i) + ">" + "</td>"
+                        + "<td>" + adverts[i].status + "</td>"
+                        + "<td>" + adverts[i].title + "</td>"
+                        + "<td>" + adverts[i].car.title + "</td>"
+                        + "<td>" + adverts[i].car.carBody + "</td>"
+                        + "<td>" + adverts[i].car.vincode + "</td>"
+                        + "<td>" + adverts[i].price + "</td>"
+                        + "<td>" + adverts[i].account.id + "</td>"
+                        + "<td>" + convertData(adverts, i) + "</td>"
+                        + "</tr>"
+                }
+                var table = document.getElementById("adverts_table");
+                table.innerHTML = result;
+
+            }
+        });
+
+
+    </script>
+    <script>
+        function redir() {
+            window.location.href = 'add/newadv';
+        }
+    </script>
+    <script>
+        function sendIdPhoto(data, i) {
+            var array = data.responseJSON;
+            if (array[i].photo == null) {
+                return "null";
+            }
+            return array[i].photo.id;
+        }
+    </script>
+
+    <script>
+        function convertData(adverts, i) {
+            return new Date(adverts[i].added).toLocaleDateString()
+        }
+    </script>
+</head>
+<body>
+
+<h1 align="center">Обьявления по продаже машин</h1>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered table-hover table-sortable" id="adverts_table">
+                <thead>
+                <tr>
+                    <th class="text-center">
+                        ID обьявления
+                    </th>
+                    <th class="text-center">
+                        Статус обьявления
+                    </th>
+                    <th class="text-center">
+                        Описание
+                    </th>
+                    <th class="text-center">
+                        Марка автомобиля
+                    </th>
+                    <th class="text-center">
+                        Тип кузова
+                    </th>
+                    <th class="text-center">
+                        Цена
+                    </th>
+                    <th class="text-center">
+                        ID пользователя
+                    </th>
+                    <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+            </table>
+        </div>
+    </div>
+    <button type="button"  id="add" onclick="redir()">Перейти к добавлению
+        нового обьявления
+    </button>
+    <form id="criteria" style="color:black">
+        <label for="select_option"></label>
+        <select name="action" id="select_option">
+            <option value="all">Показать все</option>
+            <option value="havephoto">Показать все с фото</option>
+            <option value="today">Показать за сегодня</option>
+        </select>
+        <button type="button" onclick="showByCriteria()">Произвести выборку</button>
+    </form>
+    <form id="criteria_cars" style="color:black">
+        <label for="criteria_cars"></label>
+        <label for="car_title"></label><input type="text" name="car_title"
+                                              placeholder="Введите марку машины для поиска обьявлений" id="car_title">
+        <input type="hidden" name="action" value="brand" id="action">
+        <button type="button" onclick="showByCriteriaCars()">Произвести выборку по марке авто</button>
+    </form>
+
+</div>
+</body>
+</html>
